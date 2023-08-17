@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     CharacterController controller;
     [SerializeField] Animator animator;
-    
+    [SerializeField] GameObject actualVehicle;
     [SerializeField] private float speed = 5f;
     private static readonly int State = Animator.StringToHash("state");
     private bool canMove = true;

@@ -2,43 +2,45 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
 public class CanvasController : MonoBehaviour
 {
-    [SerializeField] GameObject getInCarButton, getOutCarButton;
+    [SerializeField] Button getInCarButton, getOutCarButton, repairButton;
 
     private void Start()
     {
         EventsManager.Instance.ActionCanEnterInAVehicle += CanEnterInAVehicle;
+        EventsManager.Instance.ActionCanModifyVehicle += OnCanModifyVehicle;
     }
 
     private void OnDestroy()
     {
         EventsManager.Instance.ActionCanEnterInAVehicle -= CanEnterInAVehicle;
+        EventsManager.Instance.ActionCanModifyVehicle -= OnCanModifyVehicle;
     }
     
-    private void CanEnterInAVehicle(bool can)
+    private void CanEnterInAVehicle(bool can, GameObject vehicle)
     {
-        if (can)
-        {
-            getInCarButton.SetActive(true);
-        }
-        else
-        {
-            getInCarButton.SetActive(false);
-        }
+        getInCarButton.gameObject.SetActive(can);
     }
 
-    public void GetInTheCar()
+    public void ButtonGetInTheCarAction()
     {
-        EventsManager.Instance.OnEnterInAVehicle();
-        getInCarButton.SetActive(false);
-        getOutCarButton.SetActive(true);
+        //EventsManager.Instance.OnEnterInAVehicle();
+        getInCarButton.gameObject.SetActive(false);
+        getOutCarButton.gameObject.SetActive(true);
     }
     
-    public void GetOutOffTheCar()
+    public void ButtonGetOutOffTheCarAction()
     {
-        EventsManager.Instance.OnExitFromVehicle();
-        getOutCarButton.SetActive(false);
+        //EventsManager.Instance.OnExitFromVehicle();
+        getOutCarButton.gameObject.SetActive(false);
+    }
+    
+    public void OnCanModifyVehicle(bool can)
+    {
+        repairButton.gameObject.SetActive(can);
     }
 }

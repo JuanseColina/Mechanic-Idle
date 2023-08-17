@@ -26,7 +26,7 @@ public class CarBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            EventsManager.Instance.OnCanEnterInAVehicle(true);
+            EventsManager.Instance.OnCanEnterInAVehicle(true, this.gameObject);
             playerTransform = other.transform;
         }
     }
@@ -35,23 +35,32 @@ public class CarBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            EventsManager.Instance.OnCanEnterInAVehicle(false);
+            EventsManager.Instance.OnCanEnterInAVehicle(false, null);
             playerTransform = null;
         }
     }
 
-    private void OnEnterInAVehicle()
+    private void OnEnterInAVehicle( GameObject vehicle)
     {
         playerTransform.rotation = transform.rotation;
-        playerTransform.position = centerVehiclePos.position;
-        transform.SetParent(playerTransform);
+        TweenPlayerVehicle(playerTransform, centerVehiclePos);
         CamController.Instance.ChangeLookAtCam(transform);
     }
-    
+
+    private void TweenPlayerVehicle(Transform playerTr, Transform position)
+    {
+
+        LeanTween.move(playerTr.gameObject, position.position, 0.1f).setEase(LeanTweenType.easeInOutSine)
+            .setOnComplete(() =>
+            {
+                if (position != exitPos) transform.SetParent(playerTransform);
+            });
+    }
+
     private void OnExitFromVehicle()
     {
-        playerTransform.position = exitPos.position;
         transform.SetParent(null);
+        TweenPlayerVehicle(playerTransform, exitPos);
         CamController.Instance.ChangeLookAtCam(playerTransform);
     }
 }

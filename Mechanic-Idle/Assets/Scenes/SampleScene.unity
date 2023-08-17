@@ -622,7 +622,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 957833031}
         m_TargetAssemblyTypeName: CanvasController, Assembly-CSharp
-        m_MethodName: GetInTheCar
+        m_MethodName: ButtonGetInTheCarAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9140,7 +9140,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 957833031}
         m_TargetAssemblyTypeName: CanvasController, Assembly-CSharp
-        m_MethodName: GetOutOffTheCar
+        m_MethodName: ButtonGetOutOffTheCarAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
