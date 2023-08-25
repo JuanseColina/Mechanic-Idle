@@ -13,14 +13,16 @@ public class EventsManager : MonoBehaviour
             Instance = this;
         }
     }
-    public event Action<bool, GameObject> ActionCanEnterInAVehicle;
-    public event Action<GameObject> ActionEnterInAVehicle;
+    public event Action<bool> ActionCanEnterInAVehicle;
+    public event Action ActionEnterInAVehicle;
     public event Action ActionExitFromVehicle;
-    public event Action<bool> ActionCanModifyVehicle; 
+    public event Action<bool> ActionCanModifyVehicle;
+    public event Action ActionModifyVehicle;
     
-    public void OnCanEnterInAVehicle(bool can, GameObject vehicle) => ActionCanEnterInAVehicle?.Invoke(can, vehicle);
-    public void OnEnterInAVehicle(GameObject vehicle) => ActionEnterInAVehicle?.Invoke(vehicle);
+    public void OnCanEnterInAVehicle(bool can) => ActionCanEnterInAVehicle?.Invoke(can);
+    public void OnEnterInAVehicle() => ActionEnterInAVehicle?.Invoke();
     public void OnExitFromVehicle() => ActionExitFromVehicle?.Invoke();
     public void OnCanModifyVehicle(bool can) => ActionCanModifyVehicle?.Invoke(can);
+    public void OnModifyVehicle() => ActionModifyVehicle?.Invoke();
 
 }

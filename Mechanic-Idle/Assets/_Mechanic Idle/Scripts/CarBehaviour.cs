@@ -6,8 +6,15 @@ using UnityEngine.Serialization;
 
 public class CarBehaviour : MonoBehaviour
 {
+    [SerializeField] private float speed;
+
+    [Header("References")]
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform centerVehiclePos, exitPos;
+    [SerializeField] private GameObject[] wheels;
+    
+    private Player _player;
+    private bool isOnVehicle;
 
     private void Start()
     {
@@ -20,14 +27,12 @@ public class CarBehaviour : MonoBehaviour
         EventsManager.Instance.ActionEnterInAVehicle -= OnEnterInAVehicle;
         EventsManager.Instance.ActionExitFromVehicle -= OnExitFromVehicle;
     }
-    
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            EventsManager.Instance.OnCanEnterInAVehicle(true, this.gameObject);
-            playerTransform = other.transform;
+            InitializePlayer(other);
         }
     }
 
@@ -35,32 +40,77 @@ public class CarBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            EventsManager.Instance.OnCanEnterInAVehicle(false, null);
-            playerTransform = null;
+            ResetPlayer();
         }
     }
 
-    private void OnEnterInAVehicle( GameObject vehicle)
+    private void InitializePlayer(Collider playerCollider)
     {
-        playerTransform.rotation = transform.rotation;
-        TweenPlayerVehicle(playerTransform, centerVehiclePos);
-        CamController.Instance.ChangeLookAtCam(transform);
+        _player = playerCollider.GetComponent<Player>();
+        EventsManager.Instance.OnCanEnterInAVehicle(true);
+        playerTransform = playerCollider.transform;
     }
 
-    private void TweenPlayerVehicle(Transform playerTr, Transform position)
+    private void ResetPlayer()
     {
-
-        LeanTween.move(playerTr.gameObject, position.position, 0.1f).setEase(LeanTweenType.easeInOutSine)
-            .setOnComplete(() =>
-            {
-                if (position != exitPos) transform.SetParent(playerTransform);
-            });
+        _player = null;
+        EventsManager.Instance.OnCanEnterInAVehicle(false);
+        playerTransform = null;
+    }
+    
+    private void OnEnterInAVehicle()
+    {
+        isOnVehicle = true;
+        _player.ActualVehicle = gameObject;
+        _player.ChangeSpeed(speed);
+        AlignPlayerWithVehicle();
+        CamController.Instance.ChangeLookAtCam(transform);
     }
 
     private void OnExitFromVehicle()
     {
+        isOnVehicle = false;
+        _player.ActualVehicle = null;
+        DetachPlayerFromVehicle();
+        CamController.Instance.ChangeLookAtCam(playerTransform);
+    }
+
+    private void AlignPlayerWithVehicle()
+    {
+        playerTransform.rotation = transform.rotation;
+        TweenPlayerVehicle(playerTransform, centerVehiclePos, () =>
+        {
+            if (centerVehiclePos != exitPos)
+                transform.SetParent(playerTransform);
+        });
+    }
+
+    private void DetachPlayerFromVehicle()
+    {
         transform.SetParent(null);
         TweenPlayerVehicle(playerTransform, exitPos);
-        CamController.Instance.ChangeLookAtCam(playerTransform);
+    }
+
+    private void TweenPlayerVehicle(Transform playerTr, Transform position, System.Action onComplete = null)
+    {
+        LeanTween.move(playerTr.gameObject, position.position, 0.1f)
+            .setEase(LeanTweenType.easeInOutSine)
+            .setOnComplete(onComplete);
+    }
+
+    private void Update()
+    {
+        if (!isOnVehicle) return;
+
+        if(Joystick.Instance.GetMoveDirection() != Vector3.zero) 
+            RotateWheels();
+    }
+
+    private void RotateWheels()
+    {
+        foreach (var wheel in wheels)
+        {
+            wheel.transform.Rotate(Vector3.right, 1000f * Time.deltaTime);
+        }
     }
 }

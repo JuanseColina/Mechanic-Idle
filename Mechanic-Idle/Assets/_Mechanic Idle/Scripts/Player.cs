@@ -9,12 +9,19 @@ public class Player : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] GameObject actualVehicle;
     [SerializeField] private float speed = 5f;
+    private float actualSpeed;
     private static readonly int State = Animator.StringToHash("state");
     private bool canMove = true;
 
+    public GameObject ActualVehicle
+    {
+        get => actualVehicle;
+        set => actualVehicle = value;
+    }
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        actualSpeed = speed;
     }
 
     private void Start()
@@ -51,5 +58,15 @@ public class Player : MonoBehaviour
     private void OnExitFromVehicle()
     {
         animator.gameObject.SetActive(true);
+        ResetSpeed();
+    }
+    
+    private void ResetSpeed()
+    {
+        speed = actualSpeed;
+    }
+    public void ChangeSpeed(float value)
+    {
+        speed = value;
     }
 }
