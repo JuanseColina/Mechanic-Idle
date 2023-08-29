@@ -49,6 +49,12 @@ public class CanvasController : MonoBehaviour
     {
         EventsManager.Instance.OnExitFromVehicle();
         EventsManager.Instance.OnModifyVehicle();
+        ButtonChangePositionToCleanCar();
         washButton.gameObject.SetActive(false);
+    }
+
+    public void ButtonChangePositionToCleanCar()
+    {
+        CamController.Instance.WashingMachineCam();
     }
 }

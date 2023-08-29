@@ -8,7 +8,8 @@ public class CamController : MonoBehaviour
     public static CamController Instance;
     
     
-    [SerializeField] private CinemachineVirtualCamera playerCam, vehicleCam;
+    [SerializeField] private CinemachineVirtualCamera playerCam;
+    [SerializeField] private CinemachineVirtualCamera[] washingMachineCams;
     
     private void Awake()
     {
@@ -22,5 +23,30 @@ public class CamController : MonoBehaviour
     public void ChangeLookAtCam(Transform target)
     {
         playerCam.Follow = target;
+    }
+    
+    private int _currentWashingMachineCam;
+    public void WashingMachineCam()
+    {
+        ResetCamPriority();
+        if (_currentWashingMachineCam < washingMachineCams.Length)
+        {
+            washingMachineCams[_currentWashingMachineCam].Priority = 1;
+            _currentWashingMachineCam++;
+        }
+        else
+        {
+            _currentWashingMachineCam = 0;
+        }
+    }
+    
+    
+    private void ResetCamPriority()
+    {
+        playerCam.Priority = 0;
+        foreach (var cam in washingMachineCams)
+        {
+            cam.Priority = 0;
+        }
     }
 }
