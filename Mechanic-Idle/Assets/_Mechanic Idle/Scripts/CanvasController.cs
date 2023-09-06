@@ -42,7 +42,7 @@ public class CanvasController : MonoBehaviour
     private void OnCanModifyVehicle(bool can)
     {
         washButton.gameObject.SetActive(can);
-        //getOutCarButton.gameObject.SetActive(false);
+        getOutCarButton.gameObject.SetActive(!can);
     }
     
     public void ButtonWashCarAction()

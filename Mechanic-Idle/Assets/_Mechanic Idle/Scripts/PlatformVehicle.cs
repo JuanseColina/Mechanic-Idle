@@ -1,9 +1,11 @@
+using Cinemachine;
 using UnityEngine;
 
 public class PlatformVehicle : MonoBehaviour
 {
     [SerializeField] private GameObject vehicle;
     [SerializeField] private GameObject triangle;
+    [SerializeField] private CinemachineVirtualCamera[] cameras;
     private void Start()
     {
         TriangleTween();
