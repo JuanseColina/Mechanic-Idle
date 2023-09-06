@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +19,8 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     [SerializeField] private Camera _mainCamera;
     
     private void Awake() => Instance = this;
+
+  
 
     public void Show(bool isVisible = true)
     {

@@ -2,12 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 
 public class CanvasController : MonoBehaviour
 {
-    [SerializeField] private Button getInCarButton, getOutCarButton, washButton;
+    [SerializeField] private Button getInCarButton;
+    [SerializeField] private Button getOutCarButton;
+    [SerializeField] private Button enterCarWashButton;
+    [SerializeField] private Button changeCamInWashMode;
+    [SerializeField] private Button exitCarsWashButton;
 
     private void Start()
     {
@@ -41,19 +46,30 @@ public class CanvasController : MonoBehaviour
 
     private void OnCanModifyVehicle(bool can)
     {
-        washButton.gameObject.SetActive(can);
+        enterCarWashButton.gameObject.SetActive(can);
         getOutCarButton.gameObject.SetActive(!can);
     }
-    
+
     public void ButtonWashCarAction()
     {
-        EventsManager.Instance.OnExitFromVehicle();
+        //EventsManager.Instance.OnExitFromVehicle();
         EventsManager.Instance.OnModifyVehicle();
-        ButtonChangePositionToCleanCar();
-        washButton.gameObject.SetActive(false);
+        ButtonChangeCamToCleanCar();
+        changeCamInWashMode.gameObject.SetActive(true);
+        EventsManager.Instance.OnPlayerCanMove(false);
+        exitCarsWashButton.gameObject.SetActive(true);
+        enterCarWashButton.gameObject.SetActive(false);
     }
 
-    public void ButtonChangePositionToCleanCar()
+    public void ButtonExitCarWash()
+    {
+        exitCarsWashButton.gameObject.SetActive(false);
+        changeCamInWashMode.gameObject.SetActive(false);
+        EventsManager.Instance.OnPlayerCanMove(true);
+        CamController.Instance.LookAtPlayerCam();
+    }
+
+    public void ButtonChangeCamToCleanCar()
     {
         CamController.Instance.WashingMachineCam();
     }

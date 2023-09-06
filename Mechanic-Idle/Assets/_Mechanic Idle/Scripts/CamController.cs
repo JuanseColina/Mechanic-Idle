@@ -19,6 +19,12 @@ public class CamController : MonoBehaviour
         }
     }
 
+    public void LookAtPlayerCam()
+    {
+        ResetCamPriority();
+        playerCam.Priority = 1;
+    }
+
     // void to change between playerCam an vehicleCam
     public void ChangeLookAtCam(Transform target)
     {
@@ -29,9 +35,9 @@ public class CamController : MonoBehaviour
     public void WashingMachineCam()
     {
         ResetCamPriority();
-        if (_currentWashingMachineCam < washingMachineCams.Length)
+        washingMachineCams[_currentWashingMachineCam].Priority = 1;
+        if (_currentWashingMachineCam < washingMachineCams.Length - 1)
         {
-            washingMachineCams[_currentWashingMachineCam].Priority = 1;
             _currentWashingMachineCam++;
         }
         else

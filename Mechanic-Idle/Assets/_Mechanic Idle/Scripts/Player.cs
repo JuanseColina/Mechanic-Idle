@@ -28,12 +28,14 @@ public class Player : MonoBehaviour
     {
         EventsManager.Instance.ActionEnterInAVehicle += OnEnterInAVehicle; 
         EventsManager.Instance.ActionExitFromVehicle += OnExitFromVehicle;
+        EventsManager.Instance.ActionPlayerCanMove += OnPlayerCanMove;
     }
 
     private void OnDestroy()
     {
         EventsManager.Instance.ActionEnterInAVehicle -= OnEnterInAVehicle;
         EventsManager.Instance.ActionExitFromVehicle -= OnExitFromVehicle;
+        EventsManager.Instance.ActionPlayerCanMove -= OnPlayerCanMove;
     }
 
     private void Update()
@@ -68,5 +70,10 @@ public class Player : MonoBehaviour
     public void ChangeSpeed(float value)
     {
         speed = value;
+    }
+
+    private void OnPlayerCanMove(bool can)
+    {
+        canMove = can;
     }
 }

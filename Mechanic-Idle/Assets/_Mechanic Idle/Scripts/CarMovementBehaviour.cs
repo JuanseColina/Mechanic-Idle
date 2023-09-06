@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class CarBehaviour : MonoBehaviour
+public class CarMovementBehaviour : MonoBehaviour
 {
+    [SerializeField] private Car car;
     [SerializeField] private float speed;
 
     [Header("References")]
@@ -15,6 +16,11 @@ public class CarBehaviour : MonoBehaviour
     
     private Player _player;
     private bool isOnVehicle;
+
+    private void Awake()
+    {
+        speed = car.Speed;
+    }
 
     private void Start()
     {
