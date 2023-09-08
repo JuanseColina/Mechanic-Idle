@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 209844338678843489}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 6.38}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -123,9 +123,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879496e5933bc44deb208f606a29aae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  car: {fileID: 0}
+  speed: 0
+  drivingControl: 0
   playerTransform: {fileID: 0}
   centerVehiclePos: {fileID: 4236941367077251891}
   exitPos: {fileID: 1129870156357753524}
+  wheels: []
 --- !u!1 &440079841734403380
 GameObject:
   m_ObjectHideFlags: 0

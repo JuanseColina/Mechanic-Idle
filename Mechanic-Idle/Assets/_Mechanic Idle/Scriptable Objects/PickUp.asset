@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd9b3a1461d548658819992dd1c7b69, type: 3}
   m_Name: PickUp
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 8
+  drivingControl: 200

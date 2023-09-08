@@ -96,6 +96,8 @@ GameObject:
   - component: {fileID: 23863095322041048}
   - component: {fileID: 5038147303816540373}
   - component: {fileID: 6889405253666349167}
+  - component: {fileID: 6042694399055109133}
+  - component: {fileID: 6643318175132062988}
   m_Layer: 0
   m_Name: Pickup
   m_TagString: Vehicle
@@ -121,7 +123,7 @@ Transform:
   - {fileID: 84101974202539925}
   - {fileID: 4025949132606224555}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33359616686959090
 MeshFilter:
@@ -206,9 +208,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879496e5933bc44deb208f606a29aae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
+  controller: {fileID: 6643318175132062988}
+  car: {fileID: 11400000, guid: c46a87c356b354c9f9d4e14cfd66ea45, type: 2}
+  speed: 0
+  drivingControl: 0
+  playerTransform: {fileID: 3978552006228232702}
   centerVehiclePos: {fileID: 4025949132606224555}
   exitPos: {fileID: 84101974202539925}
+  wheels:
+  - {fileID: 1842789190113546}
+  - {fileID: 1444795713273226}
+--- !u!114 &6042694399055109133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540347792959478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 098a362791238458988d15e7a5d7f4f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
+--- !u!143 &6643318175132062988
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540347792959478}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.82
+  m_Radius: 0.47
+  m_SlopeLimit: 45
+  m_StepOffset: 0
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1842789190113546
 GameObject:
   m_ObjectHideFlags: 0

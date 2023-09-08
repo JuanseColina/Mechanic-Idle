@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
@@ -17,6 +18,11 @@ public class CamController : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    private void Start()
+    {
+        LookAtPlayerCam();
     }
 
     public void LookAtPlayerCam()

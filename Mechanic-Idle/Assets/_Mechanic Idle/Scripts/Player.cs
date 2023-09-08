@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private static readonly int State = Animator.StringToHash("state");
     private bool canMove = true;
 
+    public float rotation=90;
     public GameObject ActualVehicle
     {
         get => actualVehicle;
@@ -41,9 +42,10 @@ public class Player : MonoBehaviour
     private void Update()
     {
         if (!canMove) return;
+        if (actualVehicle) return;
         controller.Move(Joystick.Instance.GetMoveDirection() * (speed * Time.deltaTime));
-          if(Joystick.Instance.GetMoveDirection() != Vector3.zero)
-              transform.rotation = Quaternion.LookRotation(Joystick.Instance.GetMoveDirection());
+        if (Joystick.Instance.GetMoveDirection() != Vector3.zero)
+                transform.rotation = Quaternion.LookRotation(Joystick.Instance.GetMoveDirection());
     }
     
     private void LateUpdate()
