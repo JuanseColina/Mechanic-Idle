@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(BoxCollider))]
 public class CarMovementBehaviour : MonoBehaviour
 {
-    [SerializeField] private CharacterController controller;
+    [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private Car car;
     [SerializeField] private float speed;
     [SerializeField] private float drivingControl;
@@ -41,9 +44,11 @@ public class CarMovementBehaviour : MonoBehaviour
     {
         if (!isOnVehicle) return;
 
+        Vector3 move = Joystick.Instance.GetMoveDirection() * speed;
+        move.y = 0;
+        rigidbody.velocity = move;
         if (Joystick.Instance.GetMoveDirection() != Vector3.zero)
         {
-            controller.Move(Joystick.Instance.GetMoveDirection() * (speed * Time.deltaTime));
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Joystick.Instance.GetMoveDirection()), drivingControl * Time.deltaTime);
             RotateWheels();
         }
@@ -81,7 +86,6 @@ public class CarMovementBehaviour : MonoBehaviour
     {
         isOnVehicle = true;
         _player.ActualVehicle = gameObject;
-        _player.ChangeSpeed(speed);
         AlignPlayerWithVehicle();
         CamController.Instance.ChangeLookAtCam(transform);
     }
@@ -97,24 +101,16 @@ public class CarMovementBehaviour : MonoBehaviour
     private void AlignPlayerWithVehicle()
     {
         _player.transform.rotation = transform.rotation;
-        transform.position = centerVehiclePos.position;
+        _player.transform.position = centerVehiclePos.position;
         _player.transform.SetParent(transform);
     }
 
     private void DetachPlayerFromVehicle()
     {
-        _player.transform.position = exitPos.position;
-        _player.transform.parent = null;
-        // TweenPlayerVehicle(positionForPlayerInCar, exitPos);
+        _player.transform.localPosition = exitPos.localPosition;
+        _player.transform.SetParent(null);
     }
-
-    // private void TweenPlayerVehicle(Transform playerTr, Transform position, System.Action onComplete = null)
-    // {
-    //     LeanTween.move(playerTr.gameObject, position.position, 0.1f)
-    //         .setEase(LeanTweenType.easeInOutSine)
-    //         .setOnComplete(onComplete);
-    // }
-
+    
     
 
     private void RotateWheels()

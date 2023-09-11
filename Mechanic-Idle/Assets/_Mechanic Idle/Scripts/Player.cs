@@ -6,6 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     CharacterController controller;
+    [SerializeField] Collider _collider;
     [SerializeField] Animator animator;
     [SerializeField] GameObject actualVehicle;
     [SerializeField] private float speed = 5f;
@@ -13,7 +14,6 @@ public class Player : MonoBehaviour
     private static readonly int State = Animator.StringToHash("state");
     private bool canMove = true;
 
-    public float rotation=90;
     public GameObject ActualVehicle
     {
         get => actualVehicle;
@@ -57,12 +57,13 @@ public class Player : MonoBehaviour
     private void OnEnterInAVehicle()
     {
         animator.gameObject.SetActive(false);
+        _collider.enabled = false;
     }
     
     private void OnExitFromVehicle()
     {
         animator.gameObject.SetActive(true);
-        ResetSpeed();
+        _collider.enabled = true;
     }
     
     private void ResetSpeed()
