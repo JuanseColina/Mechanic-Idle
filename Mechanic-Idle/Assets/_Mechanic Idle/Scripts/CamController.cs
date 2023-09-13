@@ -38,7 +38,7 @@ public class CamController : MonoBehaviour
     }
     
     private int _currentWashingMachineCam;
-    public void WashingMachineCam()
+    public void ChangeBetweenWashingCameras()
     {
         ResetCamPriority();
         washingMachineCams[_currentWashingMachineCam].Priority = 1;
@@ -48,8 +48,14 @@ public class CamController : MonoBehaviour
         }
         else
         {
-            _currentWashingMachineCam = 0;
+            _currentWashingMachineCam = 1;
         }
+    }
+
+    public void WashingMachineCams()
+    {
+        ResetCamPriority();
+        washingMachineCams[0].Priority = 1;
     }
     
     

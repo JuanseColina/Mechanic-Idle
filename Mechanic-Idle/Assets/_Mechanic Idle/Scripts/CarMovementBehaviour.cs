@@ -9,17 +9,19 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(BoxCollider))]
 public class CarMovementBehaviour : MonoBehaviour
 {
+    [SerializeField] private Collider collider;
     [SerializeField] private Rigidbody rigidbody;
     [SerializeField] private Car car;
-    [SerializeField] private float speed;
-    [SerializeField] private float drivingControl;
+    private float speed;
+    private float drivingControl;
 
     [Header("References")] 
     [SerializeField] private Transform centerVehiclePos;
-    [SerializeField] private Transform exitPos;
-    [SerializeField] private GameObject[] wheels;
+    [SerializeField] private GameObject[] frontWheels;
+    [SerializeField] private GameObject[] backWheels;
     
     private Player _player;
+    private Transform _playerTransform;
     private bool isOnVehicle;
 
     private void Awake()
@@ -44,21 +46,33 @@ public class CarMovementBehaviour : MonoBehaviour
     {
         if (!isOnVehicle) return;
 
+        if (Joystick.Instance.GetMoveDirection() != Vector3.zero)
+        {
+            RotateWheels();
+            WheelDirections();
+        }
+    }
+
+    [SerializeField] private float wheelsDirectionControl = 100f;
+    private void FixedUpdate()
+    {
+        if (!isOnVehicle) return;
+        
         Vector3 move = Joystick.Instance.GetMoveDirection() * speed;
         move.y = 0;
         rigidbody.velocity = move;
         if (Joystick.Instance.GetMoveDirection() != Vector3.zero)
         {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Joystick.Instance.GetMoveDirection()), drivingControl * Time.deltaTime);
-            RotateWheels();
         }
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             InitializePlayer(other);
+            _playerTransform = _player.transform;
         }
     }
 
@@ -92,10 +106,10 @@ public class CarMovementBehaviour : MonoBehaviour
 
     private void OnExitFromVehicle()
     {
-        isOnVehicle = false;
         _player.ActualVehicle = null;
+        isOnVehicle = false;
         DetachPlayerFromVehicle();
-        CamController.Instance.ChangeLookAtCam(_player.transform  );
+        CamController.Instance.ChangeLookAtCam(_playerTransform);
     }
 
     private void AlignPlayerWithVehicle()
@@ -107,17 +121,29 @@ public class CarMovementBehaviour : MonoBehaviour
 
     private void DetachPlayerFromVehicle()
     {
-        _player.transform.localPosition = exitPos.localPosition;
-        _player.transform.SetParent(null);
+        _playerTransform.position = transform.position;
+        _playerTransform.SetParent(null);
     }
     
     
 
     private void RotateWheels()
     {
-        foreach (var wheel in wheels)
+        foreach (var wheel in frontWheels)
         {
             wheel.transform.Rotate(Vector3.right, 1000f * Time.deltaTime);
+        }
+        foreach (var wheel in backWheels)
+        {
+            wheel.transform.Rotate(Vector3.right, 1000f * Time.deltaTime);
+        }
+    }
+
+    private void WheelDirections()
+    {
+        foreach (var wheels in frontWheels)
+        {
+            wheels.transform.rotation = Quaternion.RotateTowards(wheels.transform.rotation, Quaternion.LookRotation(Joystick.Instance.GetMoveDirection()), wheelsDirectionControl * Time.deltaTime);
         }
     }
 }

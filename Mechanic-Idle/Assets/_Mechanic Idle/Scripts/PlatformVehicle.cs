@@ -23,8 +23,8 @@ public class PlatformVehicle : MonoBehaviour
         {
             if (vehicle != null) return;
             triangle.SetActive(false);
-            EventsManager.Instance.OnCanModifyVehicle(true);
             vehicle = other.gameObject;
+            EventsManager.Instance.OnCanModifyVehicle(true);
 
         }
     }
@@ -34,16 +34,15 @@ public class PlatformVehicle : MonoBehaviour
         if (other.CompareTag("Vehicle"))
         {
             triangle.SetActive(true);
-            EventsManager.Instance.OnCanModifyVehicle(false);
             vehicle = null;
+            EventsManager.Instance.OnCanModifyVehicle(false);
         }
     }
     
     private void ModifyVehicle()
     {
-        var position = transform.position;
-        vehicle.transform.position = new Vector3(0,vehicle.transform.position.y,0) + position;
         vehicle.transform.rotation = transform.rotation;
+        vehicle.transform.position = new Vector3(0,vehicle.transform.position.y,0) + transform.position;
     }
 
     private void TriangleTween()

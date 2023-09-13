@@ -10,8 +10,7 @@ public class CarWashingMode : MonoBehaviour
     [SerializeField] private Slider slider;
     private void OnMouseDrag()
     {
-        time += Time.deltaTime;
+        time += Time.deltaTime * 8;
         slider.value = time;
-
     }
 }
