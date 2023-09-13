@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(BoxCollider))]
 public class CarMovementBehaviour : MonoBehaviour
 {
     [SerializeField] private Collider collider;
@@ -14,9 +13,10 @@ public class CarMovementBehaviour : MonoBehaviour
     [SerializeField] private Car car;
     private float speed;
     private float drivingControl;
+    private float wheelsDirectionControl;
 
     [Header("References")] 
-    [SerializeField] private Transform centerVehiclePos;
+    [SerializeField] private Transform exitPos;
     [SerializeField] private GameObject[] frontWheels;
     [SerializeField] private GameObject[] backWheels;
     
@@ -28,6 +28,7 @@ public class CarMovementBehaviour : MonoBehaviour
     {
         speed = car.Speed;
         drivingControl = car.DrivingControl;
+        wheelsDirectionControl = car.WheelDirection;
     }
 
     private void Start()
@@ -53,7 +54,6 @@ public class CarMovementBehaviour : MonoBehaviour
         }
     }
 
-    [SerializeField] private float wheelsDirectionControl = 100f;
     private void FixedUpdate()
     {
         if (!isOnVehicle) return;
@@ -115,13 +115,13 @@ public class CarMovementBehaviour : MonoBehaviour
     private void AlignPlayerWithVehicle()
     {
         _player.transform.rotation = transform.rotation;
-        _player.transform.position = centerVehiclePos.position;
+        _player.transform.position = transform.position;
         _player.transform.SetParent(transform);
     }
 
     private void DetachPlayerFromVehicle()
     {
-        _playerTransform.position = transform.position;
+        _playerTransform.position = exitPos.position;
         _playerTransform.SetParent(null);
     }
     
@@ -131,11 +131,11 @@ public class CarMovementBehaviour : MonoBehaviour
     {
         foreach (var wheel in frontWheels)
         {
-            wheel.transform.Rotate(Vector3.right, 1000f * Time.deltaTime);
+            wheel.transform.Rotate(Vector3.right, (speed * 100) * Time.deltaTime);
         }
         foreach (var wheel in backWheels)
         {
-            wheel.transform.Rotate(Vector3.right, 1000f * Time.deltaTime);
+            wheel.transform.Rotate(Vector3.right, speed * 100 * Time.deltaTime);
         }
     }
 
@@ -143,7 +143,14 @@ public class CarMovementBehaviour : MonoBehaviour
     {
         foreach (var wheels in frontWheels)
         {
-            wheels.transform.rotation = Quaternion.RotateTowards(wheels.transform.rotation, Quaternion.LookRotation(Joystick.Instance.GetMoveDirection()), wheelsDirectionControl * Time.deltaTime);
+            // Obtiene la dirección de movimiento del joystick
+            Vector3 moveDirection = Joystick.Instance.GetMoveDirection();
+
+            // Calcula la rotación deseada en función de la dirección de movimiento
+            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
+
+            // Aplica la rotación solo en el eje Y
+            wheels.transform.rotation = Quaternion.RotateTowards(wheels.transform.rotation, targetRotation, wheelsDirectionControl * Time.deltaTime);
         }
     }
 }

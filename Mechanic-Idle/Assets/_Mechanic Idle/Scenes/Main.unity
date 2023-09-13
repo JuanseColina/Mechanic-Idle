@@ -3872,7 +3872,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -10986,10 +10986,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879496e5933bc44deb208f606a29aae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 0}
+  collider: {fileID: 512245886}
   rigidbody: {fileID: 1277891352}
   car: {fileID: 11400000, guid: c46a87c356b354c9f9d4e14cfd66ea45, type: 2}
-  centerVehiclePos: {fileID: 0}
+  exitPos: {fileID: 601114009}
   frontWheels:
   - {fileID: 1277891347}
   - {fileID: 1277891346}
