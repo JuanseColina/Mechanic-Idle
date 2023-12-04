@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Car", fileName = "CarName")]
-public class Car : ScriptableObject
+public class VehicleSettings : ScriptableObject
 {
     [SerializeField] private float speed;
     [SerializeField] private float drivingControl;

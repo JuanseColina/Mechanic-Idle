@@ -14,6 +14,9 @@ public class CanvasController : MonoBehaviour
     [SerializeField] private Button changeCamInWashMode;
     [SerializeField] private Button exitCarsWashButton;
 
+
+    private VehicleBehavoiur myVehicle;
+
     private void Start()
     {
         EventsManager.Instance.ActionCanEnterInAVehicle += CanEnterInAVehicle;
@@ -26,14 +29,16 @@ public class CanvasController : MonoBehaviour
         EventsManager.Instance.ActionCanModifyVehicle -= OnCanModifyVehicle;
     }
     
-    private void CanEnterInAVehicle(bool can)
+    private void CanEnterInAVehicle(bool can, VehicleBehavoiur vehicle)
     {
         getInCarButton.gameObject.SetActive(can);
+        myVehicle = vehicle;
+
     }
 
     public void ButtonGetInTheCarAction()
     {
-        EventsManager.Instance.OnEnterInAVehicle();
+        EventsManager.Instance.OnEnterInAVehicle(myVehicle);
         getInCarButton.gameObject.SetActive(false);
         getOutCarButton.gameObject.SetActive(true);
     }
@@ -65,7 +70,7 @@ public class CanvasController : MonoBehaviour
         exitCarsWashButton.gameObject.SetActive(false);
         changeCamInWashMode.gameObject.SetActive(false);
         EventsManager.Instance.OnPlayerCanMove(true);
-        CamController.Instance.LookAtPlayerCam();
+        CamController.Instance.SetMainCam();
     }
 
     public void ChangeBetweenCams()

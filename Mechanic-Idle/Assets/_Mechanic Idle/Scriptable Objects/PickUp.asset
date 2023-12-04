@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   drivingControl: 200
+  wheelDirection: 300

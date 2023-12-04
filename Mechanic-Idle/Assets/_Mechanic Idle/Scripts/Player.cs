@@ -5,23 +5,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    CharacterController controller;
+    [SerializeField] CharacterController controller;
     [SerializeField] Collider _collider;
     [SerializeField] Animator animator;
-    [SerializeField] GameObject actualVehicle;
+    [SerializeField] VehicleBehavoiur actualVehicle;
     [SerializeField] private float speed = 5f;
     private float actualSpeed;
     private static readonly int State = Animator.StringToHash("state");
     private bool canMove = true;
 
-    public GameObject ActualVehicle
-    {
-        get => actualVehicle;
-        set => actualVehicle = value;
-    }
+
     private void Awake()
     {
-        controller = GetComponent<CharacterController>();
         actualSpeed = speed;
     }
 
@@ -51,18 +46,25 @@ public class Player : MonoBehaviour
     private void LateUpdate()
     {
         if (!canMove) return;
+        if (actualVehicle) return;
         animator.SetFloat(State, Joystick.Instance.GetMoveDirection().magnitude);
     }
     
-    private void OnEnterInAVehicle()
+    private void OnEnterInAVehicle(VehicleBehavoiur vehicleBehaviour)
     {
         animator.gameObject.SetActive(false);
+        actualVehicle = vehicleBehaviour;
+        controller.enabled = false;
         _collider.enabled = false;
     }
     
     private void OnExitFromVehicle()
     {
+        transform.SetParent(null);
+        transform.position = actualVehicle.GetCarExitPosition();
         animator.gameObject.SetActive(true);
+        actualVehicle = null;
+        controller.enabled = true;
         _collider.enabled = true;
     }
     
@@ -78,5 +80,11 @@ public class Player : MonoBehaviour
     private void OnPlayerCanMove(bool can)
     {
         canMove = can;
+    }
+
+    public Vector3 GetPlayerPosition()
+    {
+        var pos = transform.position;
+        return pos;
     }
 }
