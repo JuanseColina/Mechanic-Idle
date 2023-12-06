@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd9b3a1461d548658819992dd1c7b69, type: 3}
   m_Name: Viper
   m_EditorClassIdentifier: 
+  vehicleType: 0
   speed: 9
-  drivingControl: 10
+  drivingControl: 1
   wheelDirection: 300

@@ -59,8 +59,8 @@ public class CanvasController : MonoBehaviour
     {
         EventsManager.Instance.OnModifyVehicle();
         CamController.Instance.WashingMachineCams();
-        changeCamInWashMode.gameObject.SetActive(true);
         EventsManager.Instance.OnPlayerCanMove(false);
+        changeCamInWashMode.gameObject.SetActive(true);
         exitCarsWashButton.gameObject.SetActive(true);
         enterCarWashButton.gameObject.SetActive(false);
     }
@@ -73,8 +73,5 @@ public class CanvasController : MonoBehaviour
         CamController.Instance.SetMainCam();
     }
 
-    public void ChangeBetweenCams()
-    {
-        CamController.Instance.ChangeBetweenWashingCameras();
-    }
+    public void ChangeBetweenCams() => CamController.Instance.ChangeBetweenWashingCameras();
 }

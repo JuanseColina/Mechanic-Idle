@@ -11226,7 +11226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 1277891352}
-  _collider: {fileID: 0}
+  _collider: {fileID: 7776744135324715163}
   vehicleSettings: {fileID: 11400000, guid: c81338b0b95824cb38036f9195d32577, type: 2}
   exitPos: {fileID: 601114009}
   frontWheels:
@@ -11235,7 +11235,6 @@ MonoBehaviour:
   backWheels:
   - {fileID: 8251427515011935016}
   - {fileID: 935366130132316451}
-  radioOverlap: 1.5
 --- !u!54 &1277891352
 Rigidbody:
   m_ObjectHideFlags: 0

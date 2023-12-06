@@ -10,8 +10,8 @@ using Random = UnityEngine.Random;
 public class VehicleBehavoiur : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private Collider _collider;
-    [SerializeField] private VehicleSettings vehicleSettings;
+    [SerializeField] private BoxCollider _collider;
+    [SerializeField] public VehicleSettings vehicleSettings; 
     private float speed;
     private float drivingControl;
     private float wheelsDirectionControl;
@@ -20,7 +20,6 @@ public class VehicleBehavoiur : MonoBehaviour
     [SerializeField] private Transform exitPos;
     [SerializeField] private GameObject[] frontWheels;
     [SerializeField] private GameObject[] backWheels;
-    public float radioOverlap = 1.5f; // Ajusta el radio del overlap según tus necesidades
 
     private Player _player;
     private bool isPlayerOnVehicle;
@@ -168,12 +167,6 @@ public class VehicleBehavoiur : MonoBehaviour
 
     }
     
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        // Gizmos.DrawWireCube(transform.position + Vector3.up,cubeDimensions);
-    }
-
     public Vector3 GetCarExitPosition()
     {
         var pos = exitPos.position;
