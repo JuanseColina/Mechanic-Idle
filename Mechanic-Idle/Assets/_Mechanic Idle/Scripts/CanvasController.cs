@@ -70,6 +70,7 @@ public class CanvasController : MonoBehaviour
         exitCarsWashButton.gameObject.SetActive(false);
         changeCamInWashMode.gameObject.SetActive(false);
         EventsManager.Instance.OnPlayerCanMove(true);
+       
         CamController.Instance.SetMainCam();
     }
 
